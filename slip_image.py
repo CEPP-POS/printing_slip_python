@@ -12,15 +12,19 @@ def create_receipt_image(data):
     try:
         # Load fonts
         font = ImageFont.truetype('C:\\Windows\\Fonts\\tahoma.ttf', 16)
-        small_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahoma.ttf', 14)
+        small_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahomabd.ttf', 16)
+        normal_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahoma.ttf', 16)
         detail_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahoma.ttf', 12)
+        queue_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahomabd.ttf', 24)  # Bold and larger font for queue
         
         # Draw store name
         draw.text((width//2, 20), data['store_name'], font=font, fill='black', anchor='mm')
         
-        # Draw order ID and queue number
-        draw.text((width//2, 45), f"Order ID: {data['order_id']}", font=small_font, fill='black', anchor='mm')
-        draw.text((width//2, 65), f"Queue #{data['queue_number']}", font=small_font, fill='black', anchor='mm')
+        # Draw queue number first with larger bold font
+        draw.text((width//2, 45), f"Queue #{data['queue_number']}", font=queue_font, fill='black', anchor='mm')
+        
+        # Draw order ID below queue number
+        draw.text((width//2, 70), f"Order ID: {data['order_id']}", font=normal_font, fill='black', anchor='mm')
         
         # Draw separator line
         y_pos = 90
@@ -29,7 +33,7 @@ def create_receipt_image(data):
         # Draw headers
         y_pos += 20
         draw.text((30, y_pos), "รายการสั่งซื้อ", font=small_font, fill='black', anchor='lm')
-        draw.text((width-246, y_pos), "ราคาต่อหน่วย", font=small_font, fill='black', anchor='lm')
+        draw.text((width-267, y_pos), "ราคาต่อหน่วย", font=small_font, fill='black', anchor='lm')
         draw.text((width-105, y_pos), "จำนวน", font=small_font, fill='black', anchor='rm')
         draw.text((width-30, y_pos), "ราคารวม", font=small_font, fill='black', anchor='rm')
         
@@ -44,24 +48,24 @@ def create_receipt_image(data):
             # Draw main item details
             draw.text((30, y_pos), name, font=font, fill='black', anchor='lm')
             draw.text((width-200, y_pos), f"{unit_price} ฿", font=font, fill='black', anchor='lm')
-            draw.text((width-105, y_pos), str(quantity), font=font, fill='black', anchor='rm')
+            draw.text((width-105, y_pos), f"x {quantity}", font=font, fill='black', anchor='rm')
             draw.text((width-30, y_pos), f"{total} ฿", font=font, fill='black', anchor='rm')
             
             # Draw additional details if available
             if len(item) > 3:
                 details = []
                 if len(item) > 3 and item[3]:  # Sweetness
-                    y_pos += 25
+                    y_pos += 20
                     details.append(f"ความหวาน: {item[3]}")
-                    draw.text((40, y_pos), details[0], font=detail_font, fill='black', anchor='lm')
+                    draw.text((50, y_pos), details[0], font=detail_font, fill='black', anchor='lm')
                 if len(item) > 4 and item[4]:  # Size
-                    y_pos += 25
+                    y_pos += 16
                     details.append(f"ขนาด: {item[4]}")
-                    draw.text((40, y_pos), details[1], font=detail_font, fill='black', anchor='lm')
+                    draw.text((50, y_pos), details[1], font=detail_font, fill='black', anchor='lm')
                 if len(item) > 5 and item[5]:  # Addon
-                    y_pos += 25
+                    y_pos += 16
                     details.append(f"เพิ่มเติม: {item[5]}")
-                    draw.text((40, y_pos), details[2], font=detail_font, fill='black', anchor='lm')
+                    draw.text((50, y_pos), details[2], font=detail_font, fill='black', anchor='lm')
                 
                 # if details:
                 #     detail_text = " | ".join(details)
