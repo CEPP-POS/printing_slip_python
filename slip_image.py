@@ -29,8 +29,8 @@ def create_receipt_image(data):
         # Draw headers
         y_pos += 20
         draw.text((30, y_pos), "รายการสั่งซื้อ", font=small_font, fill='black', anchor='lm')
-        draw.text((200, y_pos), "จำนวน", font=small_font, fill='black', anchor='lm')
-        draw.text((width-120, y_pos), "ราคา", font=small_font, fill='black', anchor='rm')
+        draw.text((width-246, y_pos), "ราคาต่อหน่วย", font=small_font, fill='black', anchor='lm')
+        draw.text((width-105, y_pos), "จำนวน", font=small_font, fill='black', anchor='rm')
         draw.text((width-30, y_pos), "ราคารวม", font=small_font, fill='black', anchor='rm')
         
         # Draw order items
@@ -43,8 +43,8 @@ def create_receipt_image(data):
             
             # Draw main item details
             draw.text((30, y_pos), name, font=font, fill='black', anchor='lm')
-            draw.text((200, y_pos), str(quantity), font=font, fill='black', anchor='lm')
-            draw.text((width-120, y_pos), f"{unit_price} ฿", font=font, fill='black', anchor='rm')
+            draw.text((width-200, y_pos), f"{unit_price} ฿", font=font, fill='black', anchor='lm')
+            draw.text((width-105, y_pos), str(quantity), font=font, fill='black', anchor='rm')
             draw.text((width-30, y_pos), f"{total} ฿", font=font, fill='black', anchor='rm')
             
             # Draw additional details if available
@@ -94,8 +94,8 @@ if __name__ == "__main__":
         "order_id": "1234567890",
         "queue_number": "10",
         "order": [
-            [1, "ชาเย็นปืน", 69, "10%", "S", "ไข่มุก"],
-            [1, "ชาเย็นปืน", 69],
+            [2, "ชาเย็นปืน", 69, "10%", "S", "ไข่มุก"],
+            [1, "ชาเย็นปืน", 69, None,None,None],
             [1, "ชาเย็นปืน", 69],
             [1, "ชาเย็นปืน", 69]
         ]
