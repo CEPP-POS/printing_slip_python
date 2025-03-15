@@ -2,9 +2,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 def create_receipt_image(data):
     width = 400  # Fixed width
-    base_height = 175  # Space for headers, queue number, and footer
+    base_height = 206  # Space for headers, queue number, and footer
     line_height = 26   # Height per order item
-    detail_height = 14  # Additional height per extra detail (sweetness, size, addon)
+    detail_height = 16  # Additional height per extra detail (sweetness, size, addon)
     
     # Calculate required height
     item_count = len(data['order'])
@@ -29,7 +29,7 @@ def create_receipt_image(data):
         draw.text((width//2, 15), data['store_name'], font=font, fill='black', anchor='mm')
 
         # Draw queue number
-        draw.text((width//2, 35), f"คิวที่ #{data['queue_number']}", font=queue_font, fill='black', anchor='mm')
+        draw.text((width//2, 35), f"** คิวที่ {data['queue_number']} **", font=queue_font, fill='black', anchor='mm')
 
         # Draw order ID
         draw.text((width//2, 55), f"Order ID: {data['order_id']}", font=normal_font, fill='black', anchor='mm')
@@ -89,12 +89,12 @@ def create_receipt_image(data):
         # Calculate total
         y_pos += 20
         total = sum(item[0] * item[2] for item in data['order'])
-        draw.text((width-110, y_pos), "รวมทั้งสิ้น", font=font, fill='black', anchor='rm')
+        draw.text((width-110, y_pos), "ยอดรวม", font=font, fill='black', anchor='rm')
         draw.text((width-15, y_pos), f"{total} ฿", font=font, fill='black', anchor='rm')
 
         # Draw thank you message
         y_pos += 30
-        draw.text((width//2, y_pos), "Thank you", font=font, fill='black', anchor='mm')
+        draw.text((width//2, y_pos), "ขอบคุณที่ใช้บริการค่ะ", font=font, fill='black', anchor='mm')
 
         # Save the image
         image.save('receipt.png')
