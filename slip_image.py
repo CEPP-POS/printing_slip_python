@@ -2,7 +2,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 def create_receipt_image(data):
     width = 400  # Fixed width
-    base_height = 130  # Space for headers, queue number, and footer
+    base_height = 175  # Space for headers, queue number, and footer
     line_height = 26   # Height per order item
     detail_height = 14  # Additional height per extra detail (sweetness, size, addon)
     
@@ -19,17 +19,17 @@ def create_receipt_image(data):
 
     try:
         # Load fonts
-        font = ImageFont.truetype('C:\\Windows\\Fonts\\tahoma.ttf', 16)
-        small_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahomabd.ttf', 16)
-        normal_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahoma.ttf', 16)
-        detail_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahoma.ttf', 12)
-        queue_font = ImageFont.truetype('C:\\Windows\\Fonts\\tahomabd.ttf', 24)
+        font = ImageFont.truetype('fonts/tahoma.ttf', 18)
+        small_font = ImageFont.truetype('fonts/tahomabd.ttf', 18)
+        normal_font = ImageFont.truetype('fonts/tahoma.ttf', 18)
+        detail_font = ImageFont.truetype('fonts/tahoma.ttf', 16)
+        queue_font = ImageFont.truetype('fonts/tahomabd.ttf', 26)
 
         # Draw store name
         draw.text((width//2, 15), data['store_name'], font=font, fill='black', anchor='mm')
 
         # Draw queue number
-        draw.text((width//2, 35), f"Queue #{data['queue_number']}", font=queue_font, fill='black', anchor='mm')
+        draw.text((width//2, 35), f"คิวที่ #{data['queue_number']}", font=queue_font, fill='black', anchor='mm')
 
         # Draw order ID
         draw.text((width//2, 55), f"Order ID: {data['order_id']}", font=normal_font, fill='black', anchor='mm')
@@ -60,18 +60,25 @@ def create_receipt_image(data):
             # Draw additional details
             if len(item) > 3:
                 details = []
-                if item[3]:  
+                if item[3]:  # Type
                     y_pos += detail_height
-                    details.append(f"ความหวาน: {item[3]}")
-                    draw.text((20, y_pos), details[0], font=detail_font, fill='black', anchor='lm')
-                if len(item) > 4 and item[4]:  
+                    details.append(f"ประเภท: {item[3]}")
+                    draw.text((20, y_pos), details[-1], font=detail_font, fill='black', anchor='lm')
+                    
+                if len(item) > 4 and item[4]:  # Sweetness
                     y_pos += detail_height
-                    details.append(f"ขนาด: {item[4]}")
-                    draw.text((20, y_pos), details[1], font=detail_font, fill='black', anchor='lm')
-                if len(item) > 5 and item[5]:  
+                    details.append(f"ความหวาน: {item[4]}")
+                    draw.text((20, y_pos), details[-1], font=detail_font, fill='black', anchor='lm')
+                    
+                if len(item) > 5 and item[5]:  # Size
                     y_pos += detail_height
-                    details.append(f"เพิ่มเติม: {item[5]}")
-                    draw.text((20, y_pos), details[2], font=detail_font, fill='black', anchor='lm')
+                    details.append(f"ขนาด: {item[5]}")
+                    draw.text((20, y_pos), details[-1], font=detail_font, fill='black', anchor='lm')
+                    
+                if len(item) > 6 and item[6]:  # Addon
+                    y_pos += detail_height
+                    details.append(f"เพิ่มเติม: {item[6]}")
+                    draw.text((20, y_pos), details[-1], font=detail_font, fill='black', anchor='lm')
 
             y_pos += line_height
 
@@ -100,14 +107,14 @@ def create_receipt_image(data):
 # Example usage
 if __name__ == "__main__":
     sample_data = {
-        "store_name": "SHOPNAME",
+        "store_name": "สุขเสมอคาเฟ่",
         "order_id": "1234567890",
         "queue_number": "10",
         "order": [
-            [2, "ชาเย็นปืน", 69, "10%", "S", "ไข่มุก"],
-            [1, "ชาเย็นปืน", 69, None, None, None],
-            [1, "ชาเย็นปืน", 69, "100%", "L", "ไข่มุก"],
-            [1, "ชาเย็นปืน", 69]
+            [2, "ชานมไต้หวัน", 69,"เย็น", "10%", "S", "ไข่มุก"],
+            [1, "โกโก้", 69,"ปั่น", "10%", "S", "ไข่มุก"],
+            [1, "คาปูชิโน่", 69, "ร้อน","100%", "L", "ไข่มุก"],
+            [1, "ลาเต้", 69,"เย็น", "10%", "S", "ไข่มุก"]
         ]
     }
     
