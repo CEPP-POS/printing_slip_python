@@ -51,16 +51,22 @@ def create_receipt_image(data):
             if len(item) > 3:
                 details = []
                 if len(item) > 3 and item[3]:  # Sweetness
+                    y_pos += 25
                     details.append(f"ความหวาน: {item[3]}")
+                    draw.text((40, y_pos), details[0], font=detail_font, fill='black', anchor='lm')
                 if len(item) > 4 and item[4]:  # Size
+                    y_pos += 25
                     details.append(f"ขนาด: {item[4]}")
+                    draw.text((40, y_pos), details[1], font=detail_font, fill='black', anchor='lm')
                 if len(item) > 5 and item[5]:  # Addon
+                    y_pos += 25
                     details.append(f"เพิ่มเติม: {item[5]}")
+                    draw.text((40, y_pos), details[2], font=detail_font, fill='black', anchor='lm')
                 
-                if details:
-                    detail_text = " | ".join(details)
-                    y_pos += 15
-                    draw.text((40, y_pos), detail_text, font=detail_font, fill='black', anchor='lm')
+                # if details:
+                #     detail_text = " | ".join(details)
+                #     y_pos += 15
+                #     draw.text((40, y_pos), detail_text, font=detail_font, fill='black', anchor='lm')
             
             y_pos += 25
         
@@ -96,7 +102,7 @@ if __name__ == "__main__":
         "order": [
             [2, "ชาเย็นปืน", 69, "10%", "S", "ไข่มุก"],
             [1, "ชาเย็นปืน", 69, None,None,None],
-            [1, "ชาเย็นปืน", 69],
+            [1, "ชาเย็นปืน", 69,"100%","L","ไข่มุก"],
             [1, "ชาเย็นปืน", 69]
         ]
     }
