@@ -1,6 +1,21 @@
 NOTE installation guide command (but please see the Linux驱动安装说明.zh-CN.en.pdf for the selected option inside CUPS):
 https://www.youtube.com/watch?v=d5sFmK-f1vw
 
+If it said Error printing image: [Errno 13] Permission denied: '/dev/usb/lp0':
+lsusb
+   Look for your printer in the list. The output will look something like this:
+output:Bus 001 Device 004: ID 1234:5678 XYZ Printer
+groups $(whoami)
+sudo usermod -aG lp $(whoami)
+sudo chmod 666 /dev/usb/lp0
+ls -l /dev/usb/lp0
+sudo chown root:lp /dev/usb/lp0
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1234", ATTRS{idProduct}=="5678", MODE="0666", GROUP="lp"
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+sudo systemctl restart cups
+sudo ausearch -m avc -ts recent
+
 
 1.First, check if your CUPS service is running properly:
 sudo systemctl status cups
