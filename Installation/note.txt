@@ -1,0 +1,45 @@
+NOTE installation guide command (but please see the Linux驱动安装说明.zh-CN.en.pdf for the selected option inside CUPS):
+https://www.youtube.com/watch?v=d5sFmK-f1vw
+
+
+1.First, check if your CUPS service is running properly:
+sudo systemctl status cups
+
+2.Reset CUPS configuration and permissions:
+sudo rm -r /etc/cups/ppd/*
+sudo rm -r /var/spool/cups/*
+sudo rm -r /var/cache/cups/*
+sudo systemctl restart cups
+
+3.Set correct permissions for the CUPS socket:
+sudo chown root:lp /run/cups/cups.sock
+sudo chmod 660 /run/cups/cups.sock
+
+4.Add your user to required groups:
+sudo usermod -a -G lpadmin,lp $USER
+
+5.Check and fix USB permissions:
+sudo chmod 777 /dev/usb/lp0
+sudo chown root:lp /dev/usb/lp0
+
+6.Update the CUPS configuration file:
+sudo nano /etc/cups/cupsd.conf
+
+Add or modify these lines:
+LogLevel debug
+Listen localhost:631
+Listen /run/cups/cups.sock
+
+7.Restart CUPS one more time:
+sudo systemctl restart cups
+
+8.Clear the print queue:
+sudo cancel -a
+sudo cupsenable POS-58
+
+
+If the issue persists, you might want to check if your printer is properly connected:
+lpinfo -v
+
+Also verify the printer status:
+lpstat -p -d
